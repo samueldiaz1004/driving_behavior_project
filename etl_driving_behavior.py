@@ -25,7 +25,7 @@ def feature_training_diff_past(df: pd.DataFrame, columns: list):
 
 if __name__ == "__main__":
     drop_columns = ["AccZ", "GyroX", "GyroY", "GyroZ", "Timestamp"]
-    atypical_columns = []
+    atypical_columns = ["AccX", "AccY"]
     diff_feature_train = ["AccX", "AccY"]
 
     url_train = "data/train_motion_data.csv"
@@ -39,10 +39,10 @@ if __name__ == "__main__":
     drop_cols(df_train, drop_columns)
     drop_cols(df_test, drop_columns)
 
+    drop_atypical_data(df_train, atypical_columns)
+
     feature_training_diff_past(df_train, diff_feature_train)
     feature_training_diff_past(df_test, diff_feature_train)
-
-    drop_atypical_data(df_train, atypical_columns)
 
     df_train.to_csv(url_train_clean, index=False)
     df_test.to_csv(url_test_clean, index=False)
