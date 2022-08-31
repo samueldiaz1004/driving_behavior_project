@@ -18,9 +18,15 @@ def drop_atypical_data(df: pd.DataFrame, columns: list):
         df.drop(Lsuperior, inplace=True)
         df.drop(Linferior, inplace=True)
 
+def feature_training_diff_past(df: pd.DataFrame, columns: list):
+    for column in columns:
+        df[f"Diff{column}"] = df[column] - df[column].shift(1)
+        df[f"Diff{column}"] = df[f"Diff{column}"].fillna(0)
+
 if __name__ == "__main__":
-    drop_columns = []
+    drop_columns = ["AccZ", "GyroX", "GyroY", "GyroZ", "Timestamp"]
     atypical_columns = []
+    diff_feature_train = ["AccX", "AccY"]
 
     url_train = "data/train_motion_data.csv"
     url_test = "data/test_motion_data.csv"
@@ -33,8 +39,11 @@ if __name__ == "__main__":
     drop_cols(df_train, drop_columns)
     drop_cols(df_test, drop_columns)
 
+    feature_training_diff_past(df_train, diff_feature_train)
+    feature_training_diff_past(df_test, diff_feature_train)
+
     drop_atypical_data(df_train, atypical_columns)
 
-    df_train.to_csv(url_train_clean)
-    df_test.to_csv(url_test_clean)
+    df_train.to_csv(url_train_clean, index=False)
+    df_test.to_csv(url_test_clean, index=False)
    
