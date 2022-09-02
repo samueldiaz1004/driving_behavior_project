@@ -46,7 +46,7 @@ if __name__ == "__main__":
     drop_columns = ["AccZ", "GyroX", "GyroY", "Timestamp"]
     atypical_columns = []
     diff_feature_train = ["AccX", "AccY"]
-    speed_feature_train = ["AccX", "AccY"]
+    speed_feature_train = []
     remove_ne_values = []
 
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
     #print(df_train)
 
     df_train = remove_negative_values(df_train, remove_ne_values)
-    df_test = remove_negative_values(df_test, remove_ne_values)
+    # df_test = remove_negative_values(df_test, remove_ne_values)
 
     df_train.to_csv(url_train_clean, index=False)
     df_test.to_csv(url_test_clean, index=False)
